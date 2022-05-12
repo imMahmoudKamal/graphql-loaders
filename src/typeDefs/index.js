@@ -1,5 +1,6 @@
 import { gql } from 'apollo-server';
 import { postTypeDefs } from './post.type.js';
+import { commentTypeDefs } from './comment.type.js';
 
 // for global types
 const baseTypeDefs = gql`
@@ -8,4 +9,4 @@ const baseTypeDefs = gql`
   type Mutation
 `;
 
-export const typeDefs = [baseTypeDefs, postTypeDefs];
+export const typeDefs = [baseTypeDefs, postTypeDefs, commentTypeDefs];

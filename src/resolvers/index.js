@@ -1,12 +1,16 @@
-import { mutation } from './mutation.js';
-import { query } from './query.js';
+import { mutation as postMutation } from './post/mutation.js';
+import { query as postQuery } from './post/query.js';
+import { mutation as commentMutation } from './comment/mutation.js';
+import { query as commentQuery } from './comment/query.js';
 
 export const resolvers = {
   Query: {
-    ...query,
+    ...postQuery,
+    ...commentQuery,
   },
 
   Mutation: {
-    ...mutation,
+    ...postMutation,
+    ...commentMutation,
   },
 };
