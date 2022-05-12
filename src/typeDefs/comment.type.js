@@ -4,10 +4,12 @@ export const commentTypeDefs = gql`
   type Comment {
     id: ID
     text: String
+    postID: ID
   }
 
   input CommentInput {
     text: String!
+    postID: ID!
   }
 
   extend type Query {

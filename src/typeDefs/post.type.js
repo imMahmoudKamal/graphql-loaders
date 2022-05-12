@@ -4,6 +4,7 @@ export const postTypeDefs = gql`
   type Post {
     id: ID
     title: String
+    comments: [Comment]
   }
 
   input PostInput {

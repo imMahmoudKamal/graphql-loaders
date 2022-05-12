@@ -1,15 +1,28 @@
 import { DataSource } from 'apollo-datasource';
 import Comment from '../models/comment.model.js';
+import DataLoader from 'dataloader';
 
 export class commentDataSource extends DataSource {
   initialize(config) {
     this.context = config.context;
+
+    this.loaders = {
+      comment: new DataLoader(async (postIDs) => {
+        const comments = await Comment.find({ postID: { $in: postIDs } });
+
+        const mappedComments = postIDs.map((postID) => ({
+          [postID]: comments.filter((comment) => comment.postID === postID),
+        }));
+
+        return Promise.all(mappedComments);
+      }),
+    };
   }
 
   async create({ input }) {
     try {
       // create new comment
-      const newComment = await new Comment({ text: input.text });
+      const newComment = await new Comment({ postID: input.postID, text: input.text });
 
       // save comment to db
       const savedComment = await newComment.save();
@@ -66,5 +79,11 @@ export class commentDataSource extends DataSource {
     } catch (error) {
       return error;
     }
+  }
+
+  async getCommentsByPost(postID) {
+    const comment = await this.loaders.comment.load(postID);
+
+    return comment[postID];
   }
 }

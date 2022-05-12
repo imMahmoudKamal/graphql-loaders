@@ -6,6 +6,8 @@ const dbOptions = {
 };
 
 export function dbConnect() {
+  mongoose.set('debug', true);
+
   return new Promise(async (resolve, reject) => {
     mongoose
       .connect(process.env.DB_URI, dbOptions)
